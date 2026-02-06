@@ -1,15 +1,11 @@
 import { Worker } from "bullmq";
-import IORedis from "ioredis";
+import { ioRedis } from "../utils/redisClient.js";
 import nodemailer from "nodemailer";
 import { prisma } from "../db/prisma.js";
 import { getTransporter } from "../services/email.service.js";
 import { getCurrentHourKey, msUntilNextHour } from "../utils/rateLimiter.js";
 
-const redis = new IORedis({
-  host: process.env.REDIS_HOST || "127.0.0.1",
-  port: process.env.REDIS_PORT || 6379,
-  maxRetriesPerRequest: null,
-});
+const redis = ioRedis;
 
 const MAX_PER_HOUR = Number(process.env.MAX_EMAILS_PER_HOUR || 100);
 const MIN_DELAY = Number(process.env.MIN_DELAY_BETWEEN_EMAILS_MS || 2000);

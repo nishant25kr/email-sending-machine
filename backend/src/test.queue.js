@@ -1,14 +1,9 @@
 // src/test.queue.js
 import { Queue } from "bullmq";
-import IORedis from "ioredis";
-
-const redis = new IORedis({
-  host: "127.0.0.1",
-  port: 6379,
-});
+import { ioRedis } from "./queues/redis.js";
 
 const queue = new Queue("email-queue", {
-  connection: redis,
+  connection: ioRedis,
 });
 
 await queue.add(
