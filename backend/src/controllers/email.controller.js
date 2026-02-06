@@ -6,7 +6,6 @@ import { emailQueue } from "../queues/email.queue.js";
  */
 export async function getScheduledEmails(req, res) {
     try {
-        console.log("Fetching scheduled emails with query:");
         const page = Number(req.query.page || 1);
         const limit = Number(req.query.limit || 10);
         const skip = (page - 1) * limit;
@@ -58,7 +57,6 @@ export async function getSentEmails(req, res) {
 
 
     try {
-        console.log("Fetching sent emails with query:", req.query);
         const page = Number(req.query.page || 1);
         const limit = Number(req.query.limit || 10);
         const skip = (page - 1) * limit;
