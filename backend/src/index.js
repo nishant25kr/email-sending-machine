@@ -3,6 +3,10 @@ import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import { connectNodeRedis } from "./utils/redisClient.js";
+import authRoutes from "./routes/auth.routes.js";
+import emailRoutes from "./routes/email.routes.js";
+
+
 
 dotenv.config();
 
@@ -18,17 +22,12 @@ app.use(
     })
 );
 
-
-import authRoutes from "./routes/auth.routes.js";
-import emailRoutes from "./routes/email.routes.js";
-
-
 app.get("/health", (req, res) => {
     res.json({ status: "OK", service: "Email Scheduler" });
 });
 
-app.use("/api/auth", authRoutes);
 app.use("/api/email", emailRoutes);
+app.use("/api/auth", authRoutes);
 
 async function startServer() {
     try {
