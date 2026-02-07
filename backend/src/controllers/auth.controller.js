@@ -6,7 +6,6 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 export async function googleAuth(req, res) {
   try {
     const { token } = req.body;
-      // console.log(token)
     let user;
     
     if (token === "DEV_TOKEN") {
@@ -31,7 +30,6 @@ export async function googleAuth(req, res) {
     const jwtToken = jwt.sign(user, process.env.JWT_SECRET, {
       expiresIn: "1d",
     });
-    console.log(jwtToken)
 
     res.json({ user, token: jwtToken });
   } catch (err) {
