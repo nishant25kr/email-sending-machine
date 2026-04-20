@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import { connectNodeRedis } from "./utils/redisClient.js";
 import authRoutes from "./routes/auth.routes.js";
 import emailRoutes from "./routes/email.routes.js";
+import { prisma } from "./db/prisma.js";
 
 
 
@@ -17,8 +18,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
     cors({
-        origin: "https://email-sending-machine.vercel.app",
-        credentials: true,
+        origin: "*",
     })
 );
 
@@ -32,6 +32,8 @@ app.use("/api/auth", authRoutes);
 async function startServer() {
     try {
         await connectNodeRedis();
+        await prisma.$connect();
+        console.log("🟢 Prisma connected");
 
         app.listen(PORT, () => {
             console.log(`🚀 Server running on port ${PORT}`);

@@ -5,7 +5,7 @@ import GoogleLoginButton from "./components/GoogleLoginButton";
 function AppContent() {
   const { user } = useAuth();
 
-
+  console.log(user)
 
   if (user === undefined) {
     return <div>Loading...</div>;
@@ -33,12 +33,13 @@ function AppContent() {
     );
   }
 
-  return <Dashboard />;
+  return <Dashboard />
 }
 
 export default function App() {
   return (
     <AuthProvider>
+
       <AppContent />
     </AuthProvider>
   );
