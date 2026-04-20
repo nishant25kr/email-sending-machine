@@ -26,8 +26,8 @@ export default function Dashboard() {
     }, []);
 
     const scheduledColumns = [
-        { 
-            key: "toEmail", 
+        {
+            key: "toEmail",
             label: "Recipient",
             render: (row) => (
                 <div className="font-medium text-gray-900">
@@ -61,8 +61,8 @@ export default function Dashboard() {
     ];
 
     const sentColumns = [
-        { 
-            key: "toEmail", 
+        {
+            key: "toEmail",
             label: "Recipient",
             render: (row) => (
                 <div className="font-medium text-gray-900">
@@ -242,11 +242,10 @@ export default function Dashboard() {
                     <div className="flex border-b border-gray-200">
                         <button
                             onClick={() => setTab("scheduled")}
-                            className={`flex-1 px-8 py-4 text-sm font-medium transition-all duration-150 relative ${
-                                tab === "scheduled"
+                            className={`flex-1 px-8 py-4 text-sm font-medium transition-all duration-150 relative ${tab === "scheduled"
                                     ? "text-gray-900 bg-white"
                                     : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
-                            }`}
+                                }`}
                         >
                             {tab === "scheduled" && (
                                 <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gray-900"></div>
@@ -274,11 +273,10 @@ export default function Dashboard() {
 
                         <button
                             onClick={() => setTab("sent")}
-                            className={`flex-1 px-8 py-4 text-sm font-medium transition-all duration-150 relative ${
-                                tab === "sent"
+                            className={`flex-1 px-8 py-4 text-sm font-medium transition-all duration-150 relative ${tab === "sent"
                                     ? "text-gray-900 bg-white"
                                     : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
-                            }`}
+                                }`}
                         >
                             {tab === "sent" && (
                                 <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gray-900"></div>

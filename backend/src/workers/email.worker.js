@@ -4,6 +4,7 @@ import nodemailer from "nodemailer";
 import { prisma } from "../db/prisma.js";
 import { getTransporter } from "../services/email.service.js";
 import { getCurrentHourKey, msUntilNextHour } from "../utils/rateLimiter.js";
+import { emailQueue } from "../queues/email.queue.js";
 
 const redis = ioRedis;
 
@@ -36,7 +37,7 @@ new Worker(
 
       console.log(`⏳ Rate limit hit. Rescheduling ${email.toEmail}`);
 
-      await job.queue.add(
+      await emailQueue.add(
         "send-email",
         { emailId },
         {
@@ -69,7 +70,12 @@ new Worker(
       });
 
       console.log("✅ Sent:", email.toEmail);
-      console.log("🔗 Preview:", nodemailer.getTestMessageUrl(info));
+      const previewUrl = nodemailer.getTestMessageUrl(info);
+      if (previewUrl) {
+        console.log("🔗 Preview:", previewUrl);
+      } else {
+        console.log("📬 Email delivered to inbox.");
+      }
 
       /* --------- MIN DELAY BETWEEN EMAILS --------- */
       await new Promise((r) => setTimeout(r, MIN_DELAY));

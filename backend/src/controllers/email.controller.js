@@ -113,15 +113,18 @@ export async function scheduleEmails(req, res) {
     const {
       subject,
       body,
-      emails,
+      emails: rawEmails,
       startTime,
       delaySeconds,
       hourlyLimit,
     } = req.body;
 
-    if (!subject || !body || !emails?.length || !startTime) {
+    if (!subject || !body || !rawEmails?.length || !startTime) {
       return res.status(400).json({ error: "Missing required fields" });
     }
+
+    // Deduplicate emails to prevent unique constraint violations
+    const emails = [...new Set(rawEmails.map(e => e.trim().toLowerCase()))];
 
     const safeDelaySeconds = Number(delaySeconds) || 0;
     const safeHourlyLimit = Number(hourlyLimit) || 100;
@@ -159,12 +162,12 @@ export async function scheduleEmails(req, res) {
         "send-email",
         { emailId: email.id },
         {
-          delay: scheduledAt.getTime() - Date.now(),
+          delay: Math.max(0, scheduledAt.getTime() - Date.now()),
           jobId: email.id,
         }
       );
 
-      delay += delaySeconds;
+      delay += safeDelaySeconds;
     }
 
     res.json({

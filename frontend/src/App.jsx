@@ -5,8 +5,6 @@ import GoogleLoginButton from "./components/GoogleLoginButton";
 function AppContent() {
   const { user } = useAuth();
 
-  console.log(user)
-
   if (user === undefined) {
     return <div>Loading...</div>;
   }
